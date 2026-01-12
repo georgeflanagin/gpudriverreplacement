@@ -16,6 +16,13 @@ nvidia-smi
 
 ## Prepare
 
+Prevent other people from logging in while you work.
+
+```bash
+touch /etc/nologin
+```
+
+
 Stop all the services related to the GUI environment. There are other ways to
 do this, but these commands will take effect *now*.
 
@@ -37,11 +44,6 @@ lsmod | grep nvidia
 ls /dev/nvidia*
 ```
 
-Prevent other people from logging in while you work.
-
-```bash
-touch /etc/nologin
-```
 
 Reboot.
 

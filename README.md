@@ -63,10 +63,10 @@ be present. IOW, this step will not hurt anything.
 dnf install -y kernel-devel-$(uname -r) kernel-headers-$(uname -r) gcc make dkms
 ```
 
-dnf repolist | grep -i nvidia
+The NVIDIA repo is already enabled or there would be no driver present. Install the
+EXACT version you are looking for.
 
-dnf config-manager --enable nvidia-driver
-
+```
 dnf install \
   nvidia-driver-580.82.07 \
   nvidia-driver-libs-580.82.07 \
@@ -75,9 +75,10 @@ dnf install \
   nvidia-settings-580.82.07 \
   nvidia-persistenced-580.82.07 \
   kmod-nvidia-latest-dkms-580.82.07
+```
 
-If DNF complains about missing dependencies, stop and inspect — do not let it pull a newer version to “resolve” things.
-Now verify:
+If DNF complains about missing dependencies, stop and inspect — do not let it pull a newer or better
+version to “resolve” things. Now verify:
 
 ```bash
 dkms status
@@ -90,13 +91,22 @@ You should see something like this:
 nvidia/580.82.07, 6.12.0-124.21.1.el10_1.x86_64, x86_64: installed
 ```
 
+Once again, reboot.
+
+```bash
 shutdown -r now
+```
 
-dnf versionlock add \
-  nvidia-driver \
-  nvidia-driver-libs \
-  nvidia-driver-cuda \
-  nvidia-driver-cuda-libs \
-  kmod-nvidia-latest-dkms
+Breathe some life into the computer:
 
+```
+systemctl set-default graphical.target
+rm /etc/nologin
+```
+
+If you want this driver to stay in place and you are completely statisfied with how it works, do this:
+
+```bash
+dnf versionlock add nvidia-driver nvidia-driver-libs nvidia-driver-cuda nvidia-driver-cuda-libs kmod-nvidia-latest-dkms
+```
 

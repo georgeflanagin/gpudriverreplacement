@@ -24,7 +24,8 @@ touch /etc/nologin
 
 
 Stop all the services related to the GUI environment. There are other ways to
-do this, but these commands will take effect *now*.
+do this, but these commands will take effect *now* and they are the ones I
+used.
 
 ```bash
 systemctl isolate multi-user.target
@@ -37,7 +38,9 @@ Nuke the old driver.
 dnf remove 'nvidia*' 'libnvidia*' 'kmod-nvidia*'
 ```
 
-These commands should modules are still loaded in memory.
+These commands should show the modules are still loaded in memory, and this 
+is why you must reboot. `dnf remove` removes them from disk so that they 
+will not be there after the reboot.
 
 ```bash
 lsmod | grep nvidia
@@ -59,7 +62,7 @@ uname -r
 
 The development packages are very likely already installed because we had a driver installed.
 However, accidents happen, and if the kernel has been updated recently, the wrong versions may
-be present. IOW, this step will not hurt anything.
+be present. IOW, this step will not hurt anything and the gcc+make might get an upgrade.
 
 ```bash
 dnf install -y kernel-devel-$(uname -r) kernel-headers-$(uname -r) gcc make dkms
